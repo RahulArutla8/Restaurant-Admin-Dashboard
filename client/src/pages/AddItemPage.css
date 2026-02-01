@@ -1,0 +1,67 @@
+.add-page {
+  min-height: 100vh;
+  background: #f6f8fb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* MAIN CARD */
+.add-card {
+  background: #ffffff;
+  width: 100%;
+  max-width: 520px;
+  padding: 28px;
+  border-radius: 14px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.2s ease;
+}
+
+.add-card:hover {
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12);
+}
+
+.add-card h2 {
+  text-align: center;
+  margin-bottom: 18px;
+  color: #e63946;
+}
+
+/* FORM */
+.add-form {
+  display: grid;
+  gap: 14px;
+}
+
+.add-form input,
+.add-form select {
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #dcdcdc;
+  font-size: 14px;
+  outline: none;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+  background: #fafafa;
+}
+
+.add-form input:focus,
+.add-form select:focus {
+  border-color: #e63946;
+  box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.12);
+  background: white;
+}
+
+/* BUTTON */
+.add-form button {
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(135deg, #e63946, #ff6b6b);
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}

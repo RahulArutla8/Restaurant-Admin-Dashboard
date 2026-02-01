@@ -1,0 +1,64 @@
+.best-page {
+  padding: 20px;
+  background: #f6f8fb;
+  min-height: 100vh;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+.best-page h1 {
+  margin-bottom: 20px;
+  color: #e63946;
+}
+
+/* GRID */
+.best-grid {
+  display: grid;
+  grid-template-columns: 1fr; /* MOBILE DEFAULT */
+  gap: 18px;
+}
+
+/* CARD */
+.best-card {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  text-align: center;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.best-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+.best-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.best-card h3 {
+  margin: 6px 0;
+}
+
+.sold {
+  font-weight: 600;
+  color: #e63946;
+}
+
+/* MEDIUM DEVICES (TABLETS) */
+@media (min-width: 600px) {
+  .best-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* LARGE DEVICES (DESKTOP) */
+@media (min-width: 900px) {
+  .best-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
