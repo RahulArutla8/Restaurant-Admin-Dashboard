@@ -10,11 +10,11 @@ function MenuPage() {
   const [menu, setMenu] = useState([]);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
-  const [available, setAvailable] = "";
+  const [available, setAvailable] = useState("");
 
   const debouncedSearch = useDebounce(search, 300);
 
-  // FETCH MENU ITEMS
+  // ================= FETCH MENU =================
   const fetchMenu = async () => {
     try {
       let url = `${API}/menu`;
@@ -25,21 +25,24 @@ function MenuPage() {
         const params = [];
 
         if (category) params.push(`category=${category}`);
-
-        // 🔥 FIX HERE
-        if (available !== "") {
-          params.push(`available=${available === "true"}`);
-        }
+        if (available !== "") params.push(`available=${available}`);
 
         if (params.length > 0) {
           url += "?" + params.join("&");
         }
       }
 
-      const res = await axios.get(url);
+      console.log("Fetching:", url);
+
+      const res = await axios.get(url, {
+        headers: {
+          "Cache-Control": "no-cache",
+        },
+      });
+
       setMenu(res.data);
     } catch (error) {
-      console.error(error);
+      console.error("Fetch menu error:", error);
     }
   };
 
@@ -47,8 +50,9 @@ function MenuPage() {
     fetchMenu();
   }, [debouncedSearch, category, available]);
 
-  // TOGGLE AVAILABILITY (OPTIMISTIC UI)
+  // ================= TOGGLE AVAILABILITY =================
   const toggleAvailability = async (id) => {
+    // Optimistic UI
     setMenu((prev) =>
       prev.map((item) =>
         item._id === id
@@ -75,7 +79,7 @@ function MenuPage() {
     }
   };
 
-  // DELETE ITEM
+  // ================= DELETE ITEM =================
   const deleteItem = async (id) => {
     if (!window.confirm("Are you sure you want to delete this item?")) return;
 
@@ -88,6 +92,7 @@ function MenuPage() {
     }
   };
 
+  // ================= UI =================
   return (
     <div className="menu-page">
       <div className="menu-title-div">
