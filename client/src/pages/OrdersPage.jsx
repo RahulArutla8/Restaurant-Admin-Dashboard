@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "./OrdersPage.css";
 
+const API = import.meta.env.VITE_API_URL;
+
 function OrdersPage() {
   const [orders, setOrders] = useState([]);
   const [statusFilter, setStatusFilter] = useState("");
@@ -11,10 +13,10 @@ function OrdersPage() {
   // FETCH ORDERS
   const fetchOrders = async () => {
     try {
-      let url = `http://localhost:5000/api/orders?page=${page}&limit=5`;
+      let url = `${API}/orders?page=${page}&limit=5`;
 
       if (statusFilter) {
-        url = `http://localhost:5000/api/orders?status=${statusFilter}&page=${page}&limit=5`;
+        url = `${API}/orders?status=${statusFilter}&page=${page}&limit=5`;
       }
 
       const res = await axios.get(url);
@@ -32,10 +34,10 @@ function OrdersPage() {
   const updateStatus = async (id, newStatus) => {
     try {
       await axios.patch(
-        `http://localhost:5000/api/orders/${id}/status`,
+        `${API}/orders/${id}/status`,
         { status: newStatus }
       );
-      fetchOrders();
+      fetchOrders(); // refresh
     } catch (error) {
       console.error(error);
     }

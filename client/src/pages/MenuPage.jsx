@@ -4,7 +4,7 @@ import useDebounce from "../useDebounce";
 import "./MenuPage.css";
 import { Link } from "react-router-dom";
 
-
+const API = import.meta.env.VITE_API_URL;
 
 function MenuPage() {
   const [menu, setMenu] = useState([]);
@@ -15,30 +15,30 @@ function MenuPage() {
   const debouncedSearch = useDebounce(search, 300);
 
   // FETCH MENU ITEMS
-  useEffect(() => {
-    const fetchMenu = async () => {
-      try {
-        let url = "http://localhost:5000/api/menu";
+  const fetchMenu = async () => {
+    try {
+      let url = `${API}/menu`;
 
-        if (debouncedSearch) {
-          url = `http://localhost:5000/api/menu/search?q=${debouncedSearch}`;
-        } else {
-          const params = [];
-          if (category) params.push(`category=${category}`);
-          if (available) params.push(`available=${available}`);
+      if (debouncedSearch) {
+        url = `${API}/menu/search?q=${debouncedSearch}`;
+      } else {
+        const params = [];
+        if (category) params.push(`category=${category}`);
+        if (available) params.push(`available=${available}`);
 
-          if (params.length > 0) {
-            url += "?" + params.join("&");
-          }
+        if (params.length > 0) {
+          url += "?" + params.join("&");
         }
-
-        const res = await axios.get(url);
-        setMenu(res.data);
-      } catch (error) {
-        console.error(error);
       }
-    };
 
+      const res = await axios.get(url);
+      setMenu(res.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
     fetchMenu();
   }, [debouncedSearch, category, available]);
 
@@ -53,9 +53,7 @@ function MenuPage() {
     );
 
     try {
-      await axios.patch(
-        `http://localhost:5000/api/menu/${id}/availability`
-      );
+      await axios.patch(`${API}/menu/${id}/availability`);
     } catch (error) {
       console.error(error);
 
@@ -72,28 +70,27 @@ function MenuPage() {
     }
   };
 
+  // DELETE ITEM
   const deleteItem = async (id) => {
-  if (!window.confirm("Are you sure you want to delete this item?")) return;
+    if (!window.confirm("Are you sure you want to delete this item?")) return;
 
-  try {
-    await axios.delete(`http://localhost:5000/api/menu/${id}`);
-    fetchMenu(); // refresh list
-  } catch (error) {
-    console.error(error);
-    alert("Failed to delete item");
-  }
-};
-
+    try {
+      await axios.delete(`${API}/menu/${id}`);
+      fetchMenu(); // refresh list
+    } catch (error) {
+      console.error(error);
+      alert("Failed to delete item");
+    }
+  };
 
   return (
     <div className="menu-page">
-     <div className="menu-title-div"> 
+      <div className="menu-title-div">
         <h1 className="menu-title">Menu Management</h1>
-      <Link to="/add-item">
-        <button className="add-btn">+ Add Item</button>
+        <Link to="/add-item">
+          <button className="add-btn">+ Add Item</button>
         </Link>
-    </div>
-
+      </div>
 
       {/* CONTROLS */}
       <div className="menu-controls">
@@ -135,8 +132,6 @@ function MenuPage() {
         <div className="menu-grid">
           {menu.map((item) => (
             <div className="menu-card" key={item._id}>
-              
-              {/* IMAGE */}
               {item.imageUrl && (
                 <img
                   src={item.imageUrl}
@@ -145,31 +140,25 @@ function MenuPage() {
                 />
               )}
 
-              {/* NAME */}
               <h3 className="menu-name">{item.name}</h3>
 
-              {/* DESCRIPTION */}
               {item.description && (
                 <p className="menu-desc">{item.description}</p>
               )}
 
-              {/* PRICE + TIME */}
               <p className="menu-info">
                 ₹{item.price}
                 {item.preparationTime && ` • ⏱ ${item.preparationTime} mins`}
               </p>
 
-              {/* CATEGORY */}
               <p className="menu-info">Category: {item.category}</p>
 
-              {/* INGREDIENTS */}
               {item.ingredients?.length > 0 && (
                 <p className="menu-ingredients">
                   Ingredients: {item.ingredients.join(", ")}
                 </p>
               )}
 
-              {/* STATUS */}
               <p
                 className={`menu-status ${
                   item.isAvailable ? "available" : "unavailable"
@@ -178,22 +167,21 @@ function MenuPage() {
                 {item.isAvailable ? "Available" : "Unavailable"}
               </p>
 
-              {/* BUTTON */}
               <div className="buttons-div">
                 <button
-                className="menu-btn"
-                onClick={() => toggleAvailability(item._id)}
-              >
-                Toggle Availability
-              </button>
-              <button
-                className="delete-btn"
-                onClick={() => deleteItem(item._id)}
+                  className="menu-btn"
+                  onClick={() => toggleAvailability(item._id)}
                 >
-                Delete
-            </button>
+                  Toggle Availability
+                </button>
 
-            </div>
+                <button
+                  className="delete-btn"
+                  onClick={() => deleteItem(item._id)}
+                >
+                  Delete
+                </button>
+              </div>
             </div>
           ))}
         </div>
