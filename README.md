@@ -212,7 +212,7 @@ Replace placeholders with your actual MongoDB credentials and API configuration.
 - **API Client:** Axios
 
 ## Deployment
-- Frontend: Netlify
+- Frontend: Netlify (https://restaurantadmindashboardz.netlify.app/)
 - Backend: Render
 - Database: MongoDB Atlas
 
