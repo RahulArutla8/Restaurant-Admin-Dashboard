@@ -213,7 +213,7 @@ Replace placeholders with your actual MongoDB credentials and API configuration.
 
 ## Deployment
 - Frontend: Netlify (https://restaurantadmindashboardz.netlify.app/)
-- Backend: Render
+- Backend: Render (https://restaurant-admin-server-k6tn.onrender.com)
 - Database: MongoDB Atlas
 
 
