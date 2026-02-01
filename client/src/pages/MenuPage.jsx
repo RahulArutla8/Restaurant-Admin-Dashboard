@@ -23,8 +23,13 @@ function MenuPage() {
         url = `${API}/menu/search?q=${debouncedSearch}`;
       } else {
         const params = [];
+
         if (category) params.push(`category=${category}`);
-        if (available) params.push(`available=${available}`);
+
+        // 🔥 FIX HERE
+        if (available !== "") {
+          params.push(`available=${available === "true"}`);
+        }
 
         if (params.length > 0) {
           url += "?" + params.join("&");
@@ -76,7 +81,7 @@ function MenuPage() {
 
     try {
       await axios.delete(`${API}/menu/${id}`);
-      fetchMenu(); // refresh list
+      fetchMenu();
     } catch (error) {
       console.error(error);
       alert("Failed to delete item");
@@ -133,11 +138,7 @@ function MenuPage() {
           {menu.map((item) => (
             <div className="menu-card" key={item._id}>
               {item.imageUrl && (
-                <img
-                  src={item.imageUrl}
-                  alt={item.name}
-                  className="menu-img"
-                />
+                <img src={item.imageUrl} alt={item.name} className="menu-img" />
               )}
 
               <h3 className="menu-name">{item.name}</h3>
